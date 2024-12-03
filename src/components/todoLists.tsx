@@ -1,20 +1,39 @@
 import React from 'react';
+import {TaskType} from "../App";
+import {FilterType} from "../types/types";
 
-export const TodoLists = () => {
+type TodoProps = {
+    tasks: TaskType[]
+    filter: FilterType
+    title: string
+}
+
+export const TodoList = (props: TodoProps) => {
+    const {tasks, filter, title} = props
+
+    const onClickAllHandler = () => {
+
+    }
+
     return (
         <div>
-            <h3>What to learn</h3>
+            <h3>{title}</h3>
             <div>
                 <input/>
                 <button>+</button>
             </div>
             <ul>
-                <li><input type="checkbox" checked={true}/> <span>HTML&CSS</span></li>
-                <li><input type="checkbox" checked={true}/> <span>JS</span></li>
-                <li><input type="checkbox" checked={false}/> <span>React</span></li>
+                {tasks.map( (t)=>{
+                    return (
+                        <li key={t.id}>
+                            <input type="checkbox" checked={t.isDone}/>
+                            <span>{t.title}</span>
+                        </li>
+                    )
+                })}
             </ul>
             <div>
-                <button>All</button>
+                <button onClick={onClickAllHandler}>All</button>
                 <button>Active</button>
                 <button>Completed</button>
             </div>

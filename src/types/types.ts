@@ -4,3 +4,5 @@ export type TodoLists = {
     order: number
     title: string
 }
+
+export type FilterType = 'all'|'completed'|'active'
