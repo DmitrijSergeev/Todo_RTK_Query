@@ -6,3 +6,7 @@ export type TodoLists = {
 }
 
 export type FilterType = 'all'|'completed'|'active'
+
+export type DomainTodoLists = TodoLists & {
+    filter: FilterType
+}

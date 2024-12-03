@@ -1,51 +1,65 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {TodoList} from "./components/todoLists";
-import {v1} from "uuid";
-import {FilterType} from "./types/types";
+import {useAppDispatch, useAppSelector} from "./hooks/hooks";
+import {setTodoListsTC} from "./store/todoListsReducer";
 
-export type TodolistsType = {
-    todoId: string,
-    title: string,
-    filter: FilterType
-}
-export type TaskType = {
-    id: string,
-    title: string,
-    isDone: boolean,
-}
-export type TaskStateType = Record<string, TaskType[]>
+// export type TodolistsType = {
+//     todoId: string,
+//     title: string,
+//     filter: FilterType
+// }
+// export type TaskType = {
+//     id: string,
+//     title: string,
+//     isDone: boolean,
+// }
+// export type TaskStateType = Record<string, TaskType[]>
 
-const todoId_1 = v1()
-const todoId_2 = v1()
+// const todoId_1 = v1()
+// const todoId_2 = v1()
 
 function App() {
 
-    const [todoLists, setTodolists] = useState<TodolistsType[]>([
-        {todoId: todoId_1, title: 'What to learn?', filter: 'all'},
-        {todoId: todoId_2, title: 'What to buy?', filter: 'all'},
-    ])
+    // const [todoLists, setTodolists] = useState<TodolistsType[]>([
+    //     {todoId: todoId_1, title: 'What to learn?', filter: 'all'},
+    //     {todoId: todoId_2, title: 'What to buy?', filter: 'all'},
+    // ])
+    //
+    // const [tasks, setTasks] = useState<TaskStateType>({
+    //     [todoId_1]:[
+    //         {id: v1(), title: 'HTML', isDone: true},
+    //         {id: v1(), title: 'React', isDone: false},
+    //         {id: v1(), title: 'Redux', isDone: false},
+    //     ],
+    //     [todoId_2]:[
+    //         {id: v1(), title: 'Milk', isDone: true},
+    //         {id: v1(), title: 'Fruit', isDone: true},
+    //         {id: v1(), title: 'Book', isDone: false},
+    //     ],
+    // })
 
-    const [tasks, setTasks] = useState<TaskStateType>({
-        [todoId_1]:[
-            {id: v1(), title: 'HTML', isDone: true},
-            {id: v1(), title: 'React', isDone: false},
-            {id: v1(), title: 'Redux', isDone: false},
-        ],
-        [todoId_2]:[
-            {id: v1(), title: 'Milk', isDone: true},
-            {id: v1(), title: 'Fruit', isDone: true},
-            {id: v1(), title: 'Book', isDone: false},
-        ],
-    })
+    const todoLists = useAppSelector(state => state.todoLists)
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(setTodoListsTC())
+    }, [dispatch]);
+
+    // const changeFilterStatus = (todoId: string, filter: FilterType) => {
+    //     setTodolists(todoLists.map(tl => (
+    //         tl.todoId === todoId ? {...tl, filter} : tl
+    //     )))
+    // }
 
     return (
         <div className="App">
-            {todoLists.map( (tl)=>{
+            {todoLists.map((tl) => {
                 const allTodolistTasks = tasks[tl.todoId]
                 let tasksForTodolist = allTodolistTasks
-                if (tl.filter === 'active'){
-                    tasksForTodolist = allTodolistTasks.filter( t => !t.isDone)
+                if (tl.filter === 'active') {
+                    tasksForTodolist = allTodolistTasks.filter(t => !t.isDone)
                 }
                 if (tl.filter === 'completed') {
                     tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
@@ -53,13 +67,15 @@ function App() {
 
                 return (
                     <TodoList
-                        key={tl.todoId}
+                        key={tl.id}
                         tasks={tasksForTodolist}
                         filter={tl.filter}
                         title={tl.title}
+                        changeFilterStatus={changeFilterStatus}
+                        todoId={tl.id}
                     />
                 )
-            } )}
+            })}
         </div>
     );
 }

@@ -7,3 +7,9 @@ const instance = axios.create({
         'API-KEY': process.env.REACT_APP_API_KEY,
     }
 })
+
+export const todoListsAPI = {
+    getTodoLists(){
+        return instance.get('todo-lists')
+    }
+}
