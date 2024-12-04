@@ -3,6 +3,8 @@ import './App.css';
 import {TodoList} from "./components/todoLists";
 import {useAppDispatch, useAppSelector} from "./hooks/hooks";
 import {setTodoListsTC} from "./store/todoListsReducer";
+import {setTasksTC} from "./store/tasksReducer";
+import {TaskStatus} from "./types/types";
 
 // export type TodolistsType = {
 //     todoId: string,
@@ -40,12 +42,16 @@ function App() {
     // })
 
     const todoLists = useAppSelector(state => state.todoLists)
-
+    const tasks = useAppSelector(state => state.tasks);
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(setTodoListsTC())
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(setTasksTC(todoLists[0].id))
+    }, [dispatch, todoLists]);
 
     // const changeFilterStatus = (todoId: string, filter: FilterType) => {
     //     setTodolists(todoLists.map(tl => (
@@ -56,13 +62,13 @@ function App() {
     return (
         <div className="App">
             {todoLists.map((tl) => {
-                const allTodolistTasks = tasks[tl.todoId]
+                const allTodolistTasks = tasks[tl.id]
                 let tasksForTodolist = allTodolistTasks
                 if (tl.filter === 'active') {
-                    tasksForTodolist = allTodolistTasks.filter(t => !t.isDone)
+                    tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatus.New)
                 }
                 if (tl.filter === 'completed') {
-                    tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
+                    tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatus.Completed)
                 }
 
                 return (
@@ -71,11 +77,11 @@ function App() {
                         tasks={tasksForTodolist}
                         filter={tl.filter}
                         title={tl.title}
-                        changeFilterStatus={changeFilterStatus}
                         todoId={tl.id}
                     />
                 )
             })}
+
         </div>
     );
 }

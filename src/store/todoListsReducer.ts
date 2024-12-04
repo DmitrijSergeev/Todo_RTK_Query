@@ -16,9 +16,10 @@ export const todoListsReducer = (state = initialState, action: ActionsType): Dom
 type ActionsType = ReturnType<typeof setTodoLists>
 
 export const setTodoLists = (todoLists: TodoLists[]) => ({
-    type: 'SET-TODOLISTS',
-    todoLists
-})
+        type: 'SET-TODOLISTS',
+        todoLists
+    } as const
+)
 
 export const setTodoListsTC = () => (dispatch: Dispatch) => {
     todoListsAPI.getTodoLists().then((res) => {
