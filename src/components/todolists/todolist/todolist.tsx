@@ -7,6 +7,7 @@ type TodolistProps = {
 }
 
 export const TodoList = ({todoList}: TodolistProps) => {
+    //console.log(todoList)
     return (
         <div>
             <Tasks todoList={todoList}/>

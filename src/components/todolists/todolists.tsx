@@ -13,16 +13,17 @@ import {TodoList} from "../../components/todolists/todolist/todolist";
 export const TodoLists = () => {
 
     const todoLists = useAppSelector(state => state.todoLists)
-
+    //console.log(todoLists)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
+        console.log(1)
         dispatch(setTodoListsTC())
     }, [dispatch]);
 
     return (
         <div>
-            {todoLists.map( (tl)=>{
+            {todoLists?.map( (tl)=>{
                 return (
                     <TodoList key={tl.id} todoList={tl}/>
                 )

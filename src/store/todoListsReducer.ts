@@ -24,5 +24,7 @@ export const setTodoLists = (todoLists: TodoLists[]) => ({
 export const setTodoListsTC = () => (dispatch: Dispatch) => {
     todoListsAPI.getTodoLists().then((res) => {
         dispatch(setTodoLists(res.data))
+    }).catch(e => {
+        console.warn(e)
     })
 }

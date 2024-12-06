@@ -9,12 +9,13 @@ type TasksProps = {
 }
 
 export const Tasks = ({todoList}: TasksProps) => {
-
+    //console.log(todoList)
     const tasks = useAppSelector(state => state.tasks)
-
+    console.log(tasks)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
+        console.log(2)
         dispatch(setTasksTC(todoList.id))
     }, [dispatch, todoList]);
 
