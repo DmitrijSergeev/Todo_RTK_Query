@@ -1,15 +1,12 @@
 import React from 'react';
-import {DomainTask, FilterType, TaskStatus} from "../types/types";
+import {DomainTask, DomainTodoLists, TaskStatus} from "../../../../../types/types";
 
-type TodoProps = {
-    todoId: string
-    tasks: DomainTask[]
-    filter: FilterType
-    title: string
+type TaskProps = {
+    task: DomainTask
+    todoList: DomainTodoLists
 }
 
-export const TodoList = (props: TodoProps) => {
-    const {tasks, filter, title, todoId} = props
+export const Task = ({todoList, task}: TaskProps) => {
 
     const onClickAllHandler = () => {
         //changeFilterStatus(todoId,'all')
@@ -23,21 +20,17 @@ export const TodoList = (props: TodoProps) => {
 
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>{todoList.title}</h3>
             <div>
                 <input/>
                 <button>+</button>
             </div>
             <ul>
-                {tasks?.map( (t)=>{
-                    return (
-                        <li key={t.id}>
-                            <button>x</button>
-                            <input type="checkbox" checked={t.status === TaskStatus.Completed}/>
-                            <span>{t.title}</span>
-                        </li>
-                    )
-                })}
+                <li key={task.id}>
+                    <button>x</button>
+                    <input type="checkbox" checked={task.status === TaskStatus.Completed}/>
+                    <span>{task.title}</span>
+                </li>
             </ul>
             <div>
                 <button onClick={onClickAllHandler}>All</button>
